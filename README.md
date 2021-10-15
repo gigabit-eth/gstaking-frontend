@@ -23,3 +23,5 @@ You will also see any lint errors in the console.
 ### `git push -u origin main`
 
 Builds the app for production and pushes to Fleek.co and IPFS for production hosting.
+
+### `yarn build`

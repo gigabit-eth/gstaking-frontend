@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js/bignumber'
 import ERC20Abi from './abi/erc20.json'
+import ERC721Abi from './abi/erc721.json'
 import MasterChefAbi from './abi/masterchef.json'
 import XSushiAbi from './abi/xsushi.json'
 import SushiAbi from './abi/sushi.json'
@@ -32,7 +33,7 @@ export class Contracts {
         lpAddress: pool.lpAddresses[networkId],
         tokenAddress: pool.tokenAddresses[networkId],
         lpContract: new this.web3.eth.Contract(UNIV2PairAbi),
-        tokenContract: new this.web3.eth.Contract(ERC20Abi),
+        tokenContract: new this.web3.eth.Contract(ERC721Abi),
       }),
     )
 

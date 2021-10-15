@@ -458,10 +458,10 @@ export const CHAIN_ID = 4
 
 export const contractAddresses = {
   sushi: {
-    4: '0x491fe104863D54A8838542B29F2FB0646150A34c',
+    4: '0x288AC09985b06a9D1a5e1494dBEab861a8173294', //SushiToken.sol?
   },
   masterChef: {
-    4: '0x9F64B60D33DF54023A6bdF5c5597eA65Be25d9B3',
+    4: '0x14f1840D511B0D3a707370795E8bc8577B2d8Aa6', // MasterChef.sol
   },
   weth: {
     4: '0xc778417e063141139fce010982780140aa0cd5ab',
@@ -475,40 +475,40 @@ export const supportedPools = [
   {
     pid: 0,
     lpAddresses: {
-      4: '0x03e6c12ef405ac3f642b9184eded8e1322de1a9e', // LP Token Address
+      4: '0x1b9f1831fC85e0c78c94Fcca1DA0EeB3F98c2Fa8', // LP Token Address (ERC721Farm.sol on Rinkeby: 0xD873A9b872B47D0D4A42Ca8C66f2aBb2edd53746)
     },
     tokenAddresses: {
-      4: '0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea', // Token, i.e. "DAI"
+      4: '0x236A9Ff76a5feBc95CaBA0ce7590a8C001b7a891', // Token, i.e. "DAI" (RNGPROXY.sol on Rinkeby: 0xbb1da4fB387D4B47d5e90Ea144729FfdCf96c406)
     },
     name: 'Gaussian Protocol',
-    symbol: 'GAUSS',
+    symbol: 'GAUS',
     tokenSymbol: 'RNG',
-    icon: '🔔',
+    icon: '🛎️',
   },
   {
     pid: 0,
     lpAddresses: {
-      4: '0x03e6c12ef405ac3f642b9184eded8e1322de1a9e', // LP Token Address
+      4: '0x63e1d27b20105E5f659caBF1F4EF9dab798E9232', // N Farm
     },
     tokenAddresses: {
-      4: '0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea', // Token, i.e. "DAI"
+      4: '0xaeB9ae8eB9772a82555c423441Ca4687222Fc4BE', // N Token
     },
     name: 'The N Project',
     symbol: 'N',
     tokenSymbol: 'RNG',
-    icon: '🔔',
+    icon: '🧮',
   },
   {
     pid: 0,
     lpAddresses: {
-      4: '0x03e6c12ef405ac3f642b9184eded8e1322de1a9e', // LP Token Address
+      4: '0xb2855f27269644741a4D83CBdE333FC4900F81b8', // Loot Farm
     },
     tokenAddresses: {
-      4: '0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea', // Token, i.e. "DAI"
+      4: '0x1854b5940782b71f8B3Dd43D0D88743C80f41198', // Loot Token
     },
     name: 'Loot',
     symbol: 'LOOT',
     tokenSymbol: 'RNG',
-    icon: '🔔',
+    icon: '🎒',
   },
 ]

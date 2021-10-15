@@ -4,6 +4,7 @@ import { Contract } from 'web3-eth-contract'
 import { AbiItem } from 'web3-utils'
 import ERC20ABI from '../constants/abi/ERC20.json'
 
+
 export const getContract = (provider: provider, address: string) => {
   const web3 = new Web3(provider)
   const contract = new web3.eth.Contract(

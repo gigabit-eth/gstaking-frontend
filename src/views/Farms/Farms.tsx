@@ -26,8 +26,8 @@ const Farms: React.FC = () => {
           <>
             <Route exact path={path}>
               <PageHeader
-                icon={<img src={logo} height="120" />}
-                subtitle="Earn RNG tokens by staking project NFTs, from The Gaussian Protocol, The N Project, and Loot."
+                icon={<img src={logo} height="100" />}
+                subtitle="Earn RNG tokens by staking NFTs, from The Gaussian Protocol, The N Project, and LootProject."
                 title="Select Your Favorite Projects"
               />
               <FarmCards />

@@ -15,7 +15,7 @@ export const grey = {
   100: '#363636', //hover
   200: '#000',
   300: '#e2d6cf', //right border
-  400: '#fff', //paragraph text
+  400: '#565656', //paragraph text
   500: '#fff', //subtext
   600: '#fff',
   800: '#2d1e12',

@@ -20,7 +20,8 @@ const TopBar: React.FC<TopBarProps> = ({ onPresentMobileMenu }) => {
           color: 'white',
           textAlign: 'center',
           padding: '3px',
-          marginBottom: '10px',
+          marginTop: '10px',
+          marginBottom: '8px',
         }}
       >
         This is a side project on Rinkeby test net. There is no $RNG token on

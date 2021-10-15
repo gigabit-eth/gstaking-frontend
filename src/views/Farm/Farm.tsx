@@ -73,13 +73,13 @@ const Farm: React.FC = () => {
         </StyledCardsWrapper>
         <Spacer size="lg" />
         <StyledInfo>
-          ⭐️ Every time you stake and unstake an NFT, the contract will
-          automagically harvest $RNG rewards for you!
+        ⚡ Unstake an NFT, and the contract will
+          automatically harvest $RNG rewards for you!
         </StyledInfo>
         <Spacer size="md" />
         <StyledLink
           target="__blank"
-          href={`https://sushiswap.vision/pair/${lpTokenAddress}`}
+          href={`https://etherscan.io/address/${lpTokenAddress}`}
         >
           {lpTokenName} Info
         </StyledLink>

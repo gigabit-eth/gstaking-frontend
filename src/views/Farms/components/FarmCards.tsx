@@ -290,7 +290,7 @@ const StyledInsight = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   background: #000;
-  color: #aa9584;
+  color: #00FF02;
   width: 100%;
   margin-top: 12px;
   line-height: 32px;
