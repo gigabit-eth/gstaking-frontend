@@ -24,8 +24,8 @@ const TopBar: React.FC<TopBarProps> = ({ onPresentMobileMenu }) => {
           marginBottom: '8px',
         }}
       >
-        This is a side project on Rinkeby test net. There is no $RNG token on
-        Mainnet. Do not get scammed.
+        This is a Rinkeby side project, no $RNG token exists
+        on Mainnet. Do not get scammed.
       </div>
       <Container size="lg">
         <StyledTopBarInner>

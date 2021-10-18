@@ -44,6 +44,9 @@ const StyledInfo = styled.h3`
   margin: 0;
   padding: 0;
   text-align: center;
+  @media (max-width: 400px) {
+    margin: 3px 0 3px 0;
+  }
 
   > b {
     color: ${(props) => props.theme.color.grey[600]};
