@@ -6,12 +6,12 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 })
 
-const GAS_LIMIT = {
-  STAKING: {
-    DEFAULT: 200000,
-    SNX: 850000,
-  },
-}
+// const GAS_LIMIT = {
+//   STAKING: {
+//     DEFAULT: 200000,
+//     SNX: 850000,
+//   },
+// }
 
 export const getMasterChefAddress = (sushi) => {
   return sushi && sushi.masterChefAddress
@@ -66,6 +66,7 @@ export const getFarms = (sushi) => {
 }
 
 export const getPoolWeight = async (masterChefContract, pid) => {
+  console.log('masterChefContract.methods.poolInfo(pid).call()');
   const { allocPoint } = await masterChefContract.methods.poolInfo(pid).call()
   const totalAllocPoint = await masterChefContract.methods
     .totalAllocPoint()
@@ -74,7 +75,14 @@ export const getPoolWeight = async (masterChefContract, pid) => {
 }
 
 export const getEarned = async (masterChefContract, pid, account) => {
-  return masterChefContract.methods.pendingSushi(pid, account).call()
+  console.log('masterChefContract.methods.pendingSushi(pid, account).call()');
+  try {
+    return await masterChefContract.methods.pendingSushi(pid, account).call()
+  } catch (err) {
+    console.log('Error fetching earned', err);
+    return 0;
+  }
+
 }
 
 export const getTotalLPWethValue = async (
@@ -94,6 +102,7 @@ export const getTotalLPWethValue = async (
     .balanceOf(masterChefContract.options.address)
     .call()
   // Convert that into the portion of total lpContract = p1
+  console.log('await lpContract.methods.totalSupply().call()');
   const totalSupply = await lpContract.methods.totalSupply().call()
   // Get total weth value for the lpContract = w1
   const lpContractWeth = await wethContract.methods
@@ -133,13 +142,13 @@ export const approveAddress = async (lpContract, address, account) => {
 }
 
 export const getSushiSupply = async (sushi) => {
+  console.log('sushi.contracts.sushi.methods.totalSupply().call())');
   return new BigNumber(await sushi.contracts.sushi.methods.totalSupply().call())
 }
 
 export const getXSushiSupply = async (sushi) => {
-  return new BigNumber(
-    await sushi.contracts.xSushiStaking.methods.totalSupply().call(),
-  )
+  console.log('sushi.contracts.xSushiStaking.methods.totalSupply().call()')
+  return new BigNumber(await sushi.contracts.xSushiStaking.methods.totalSupply().call())
 }
 
 export const stake = async (masterChefContract, pid, amount, account) => {
@@ -179,6 +188,7 @@ export const harvest = async (masterChefContract, pid, account) => {
 
 export const getStaked = async (masterChefContract, pid, account) => {
   try {
+    console.log('userInfo.call()');
     const { amount } = await masterChefContract.methods
       .userInfo(pid, account)
       .call()

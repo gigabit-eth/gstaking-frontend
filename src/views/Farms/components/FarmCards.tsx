@@ -24,7 +24,7 @@ interface FarmWithStakedValue extends Farm, StakedValue {
 
 const FarmCards: React.FC = () => {
   const [farms] = useFarms()
-  const { account } = useWallet()
+  // const { account } = useWallet()
   const stakedValue = useAllStakedValue()
 
   const sushiIndex = farms.findIndex(
@@ -92,12 +92,14 @@ interface FarmCardProps {
 }
 
 const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
-  const [startTime, setStartTime] = useState(0)
+  const [startTime] = useState(0)
   const [harvestable, setHarvestable] = useState(0)
 
   const { account } = useWallet()
   const { lpTokenAddress } = farm
   const sushi = useSushi()
+
+  console.log('harvestable: ', harvestable);
 
   const renderer = (countdownProps: CountdownRenderProps) => {
     const { hours, minutes, seconds } = countdownProps

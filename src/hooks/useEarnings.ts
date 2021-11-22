@@ -12,22 +12,22 @@ const useEarnings = (pid: number) => {
   const [balance, setBalance] = useState(new BigNumber(0))
   const {
     account,
-    ethereum,
   }: { account: string; ethereum: provider } = useWallet()
   const sushi = useSushi()
   const masterChefContract = getMasterChefContract(sushi)
   const block = useBlock()
 
+  const myPid = pid;
   const fetchBalance = useCallback(async () => {
-    const balance = await getEarned(masterChefContract, pid, account)
+    const balance = await getEarned(masterChefContract, myPid, account)
     setBalance(new BigNumber(balance))
-  }, [account, masterChefContract, sushi])
+  }, [account, masterChefContract, myPid])
 
   useEffect(() => {
     if (account && masterChefContract && sushi) {
       fetchBalance()
     }
-  }, [account, block, masterChefContract, setBalance, sushi])
+  }, [account, block, masterChefContract, setBalance, sushi, fetchBalance])
 
   return balance
 }

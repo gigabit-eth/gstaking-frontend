@@ -31,6 +31,7 @@ const useAllStakedValue = () => {
   const wethContact = getWethContract(sushi)
   const block = useBlock()
 
+  console.log('calling fetchAllStakedValue');
   const fetchAllStakedValue = useCallback(async () => {
     const balances: Array<StakedValue> = await Promise.all(
       farms.map(
@@ -54,13 +55,13 @@ const useAllStakedValue = () => {
     )
 
     setBalance(balances)
-  }, [account, masterChefContract, sushi])
+  }, [masterChefContract, farms, wethContact])
 
   useEffect(() => {
     if (account && masterChefContract && sushi) {
       fetchAllStakedValue()
     }
-  }, [account, block, masterChefContract, setBalance, sushi])
+  }, [account, block, masterChefContract, setBalance, sushi, fetchAllStakedValue])
 
   return balances
 }

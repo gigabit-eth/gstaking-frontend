@@ -18,6 +18,8 @@ const Modals: React.FC = ({ children }) => {
   const [content, setContent] = useState<React.ReactNode>()
   const [modalKey, setModalKey] = useState<string>()
 
+  console.log('modalKey: ', modalKey);
+
   const handlePresent = useCallback((modalContent: React.ReactNode, key?: string) => {
     setModalKey(key)
     setContent(modalContent)
@@ -27,7 +29,7 @@ const Modals: React.FC = ({ children }) => {
   const handleDismiss = useCallback(() => {
     setContent(undefined)
     setIsOpen(false)
-  }, [setContent, setIsOpen, modalKey])
+  }, [setContent, setIsOpen])
 
   return (
     <Context.Provider value={{

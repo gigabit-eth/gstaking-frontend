@@ -6,7 +6,7 @@ import logo from '../../assets/img/logo.png'
 const Logo: React.FC = () => {
   return (
     <StyledLogo to="/">
-      <img src={logo} height="32" style={{ marginTop: -4 }} />
+      <img alt="logo" src={logo} height="32" style={{ marginTop: -4 }} />
       <StyledText>RNG</StyledText>
     </StyledLogo>
   )
@@ -35,8 +35,8 @@ const StyledText = styled.span`
   }
 `
 
-const MasterChefText = styled.span`
-  font-family: 'Kaushan Script', sans-serif;
-`
+// const MasterChefText = styled.span`
+//   font-family: 'Kaushan Script', sans-serif;
+// `
 
 export default Logo

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js/bignumber'
-import ERC20Abi from './abi/erc20.json'
+// import ERC20Abi from './abi/erc20.json'
 import ERC721Abi from './abi/erc721.json'
 import MasterChefAbi from './abi/masterchef.json'
 import XSushiAbi from './abi/xsushi.json'

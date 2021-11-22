@@ -10,6 +10,7 @@ interface SushiIconProps {
 const SushiIcon: React.FC<SushiIconProps> = ({ size = 36, v1, v2, v3 }) => (
   <span
     role="img"
+    aria-label="dice"
     style={{
       fontSize: size,
       filter: v1 ? 'saturate(0.5)' : undefined,

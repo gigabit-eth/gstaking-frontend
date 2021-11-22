@@ -453,21 +453,26 @@ SLP Address on mainnet for reference
 
 // RNG Staking SETTINGS
 
-// 4 = Rinkeby, 1 = Mainnet
-export const CHAIN_ID = 4
+// 4 = Rinkeby, 1 = Mainnet, 55 = Hardhat Localhost
+const HARDHAT_CHAIN_ID = 55;
+export const CHAIN_ID = HARDHAT_CHAIN_ID
 
 export const contractAddresses = {
   sushi: {
     4: '0x288AC09985b06a9D1a5e1494dBEab861a8173294', //SushiToken.sol?
+    [HARDHAT_CHAIN_ID]: 'asdf'
   },
   masterChef: {
     4: '0x14f1840D511B0D3a707370795E8bc8577B2d8Aa6', // MasterChef.sol
+    [HARDHAT_CHAIN_ID]: 'asdf'
   },
   weth: {
     4: '0xc778417e063141139fce010982780140aa0cd5ab',
+    [HARDHAT_CHAIN_ID]: 'asdf'
   },
   xSushi: {
     4: '0x8798249c2e607446efb7ad49ec89dd1865ff4272', // NOTE: Not in use
+    [HARDHAT_CHAIN_ID]: 'asdf'
   },
 }
 

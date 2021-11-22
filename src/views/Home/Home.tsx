@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   return (
     <Page>
       <PageHeader
-        icon={<img src={logo} height={100} />}
+        icon={<img src={logo} height={100}  alt="logo"/>}
         title="The Bell Curve is Waiting"
         subtitle="Stake Gaussians, N Project, and/or Loot and claim $RNG to be used in the Gaussino game economy."
       />
@@ -22,7 +22,7 @@ const Home: React.FC = () => {
       </Container>
       <Spacer size="lg" />
       <StyledInfo>
-      💰 RNG-WETH LP token pool yields 2.5x more token rewards
+        <span aria-label="bag" role="img">💰</span> RNG-WETH LP token pool yields 2.5x more token rewards
         per block.
       </StyledInfo>
       <Spacer size="lg" />

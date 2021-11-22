@@ -11,7 +11,9 @@ const Loader: React.FC<LoaderProps> = ({ text }) => {
   return (
     <StyledLoader>
       <CardIcon>
-        <StyledSushi>🎲</StyledSushi>
+        <StyledSushi>
+          <span aria-label="dice" role="img">🎲</span>
+        </StyledSushi>
       </CardIcon>
       {!!text && <StyledText>{text}</StyledText>}
     </StyledLoader>

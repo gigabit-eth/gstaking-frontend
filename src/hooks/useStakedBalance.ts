@@ -17,13 +17,13 @@ const useStakedBalance = (pid: number) => {
   const fetchBalance = useCallback(async () => {
     const balance = await getStaked(masterChefContract, pid, account)
     setBalance(new BigNumber(balance))
-  }, [account, pid, sushi])
+  }, [account, pid, masterChefContract])
 
   useEffect(() => {
     if (account && sushi) {
       fetchBalance()
     }
-  }, [account, pid, setBalance, block, sushi])
+  }, [account, pid, setBalance, block, sushi, fetchBalance])
 
   return balance
 }

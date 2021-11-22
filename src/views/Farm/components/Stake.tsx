@@ -73,7 +73,11 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
       <CardContent>
         <StyledCardContentInner>
           <StyledCardHeader>
-            <CardIcon>🔒</CardIcon>
+            <CardIcon>
+              <span aria-label="lock" role="img">
+              🔒
+              </span>
+            </CardIcon>
             <Value value={getBalanceNumber(stakedBalance)} />
             <Label text={`${tokenName} Staked`} />
           </StyledCardHeader>

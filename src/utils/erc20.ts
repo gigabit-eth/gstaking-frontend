@@ -5,8 +5,8 @@ import { AbiItem } from 'web3-utils'
 import ERC20ABI from '../constants/abi/ERC20.json'
 
 
-export const getContract = (provider: provider, address: string) => {
-  const web3 = new Web3(provider)
+export const getContract = (prv: provider, address: string) => {
+  const web3 = new Web3(prv)
   const contract = new web3.eth.Contract(
     (ERC20ABI.abi as unknown) as AbiItem,
     address,
@@ -20,6 +20,7 @@ export const getAllowance = async (
   spender: string,
 ): Promise<string> => {
   try {
+    console.log('allowance.call()');
     const allowance: string = await contract.methods
       .allowance(owner, spender)
       .call()
@@ -36,6 +37,7 @@ export const getBalance = async (
 ): Promise<string> => {
   const lpContract = getContract(provider, tokenAddress)
   try {
+    console.log('balanceOf.call()');
     const balance: string = await lpContract.methods
       .balanceOf(userAddress)
       .call()
