@@ -11,7 +11,7 @@ import {getMasterChefContract, getSushiContract, getXSushiStakingContract} from 
 
 const useAllowanceStaking = () => {
   const [allowance, setAllowance] = useState(new BigNumber(0))
-  const {account}: { account: string; ethereum: provider } = useWallet()
+  const {account} = useWallet()
   const sushi = useSushi()
   const lpContract = getSushiContract(sushi)
   const stakingContract = getXSushiStakingContract(sushi)

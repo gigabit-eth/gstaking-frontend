@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import { provider } from 'web3-core'
 
 import BigNumber from 'bignumber.js'
 import { useWallet } from 'use-wallet'
@@ -10,7 +9,7 @@ import useBlock from './useBlock'
 
 const useAllEarnings = () => {
   const [balances, setBalance] = useState([] as Array<BigNumber>)
-  const { account }: { account: string; ethereum: provider } = useWallet()
+  const { account } = useWallet()
   const sushi = useSushi()
   const farms = getFarms(sushi)
   const masterChefContract = getMasterChefContract(sushi)

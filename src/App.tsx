@@ -11,7 +11,7 @@ import SushiProvider from './contexts/SushiProvider'
 import theme from './theme'
 import Farms from './views/Farms'
 import Home from './views/Home'
-import { CHAIN_ID } from './sushi/lib/constants'
+// import { CHAIN_ID } from './sushi/lib/constants'
 
 const App: React.FC = () => {
   const [mobileMenu, setMobileMenu] = useState(false)
@@ -46,11 +46,11 @@ const Providers: React.FC = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <UseWalletProvider
-        chainId={CHAIN_ID}
+        // chainId={CHAIN_ID}
         connectors={{
           walletconnect: { rpcUrl: 'https://mainnet.eth.aragon.network/' },
         }}
-      >
+       autoConnect={true} pollBalanceInterval={10000} pollBlockNumberInterval={10000}>
         <SushiProvider>
           <TransactionProvider>
             <FarmsProvider>

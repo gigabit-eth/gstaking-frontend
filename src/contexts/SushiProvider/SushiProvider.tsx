@@ -19,7 +19,7 @@ declare global {
 }
 
 const SushiProvider: React.FC = ({ children }) => {
-  const { ethereum }: { ethereum: any } = useWallet()
+  const { ethereum } = useWallet()
   const [sushi, setSushi] = useState<any>()
 
   // @ts-ignore

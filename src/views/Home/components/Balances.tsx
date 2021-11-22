@@ -71,7 +71,7 @@ const Balances: React.FC = () => {
   const [totalSupply, setTotalSupply] = useState<BigNumber>()
   const sushi = useSushi()
   const sushiBalance = useTokenBalance(getSushiAddress(sushi))
-  const { account }: { account: any; ethereum: any } = useWallet()
+  const { account } = useWallet()
 
   useEffect(() => {
     async function fetchTotalSupply() {

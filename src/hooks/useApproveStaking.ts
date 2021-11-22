@@ -10,7 +10,7 @@ import {
 } from '../sushi/utils'
 
 const useApproveStaking = () => {
-  const {account}: { account: string; ethereum: provider } = useWallet()
+  const {account} = useWallet()
   const sushi = useSushi()
   const lpContract = getSushiContract(sushi)
   const contract = getXSushiStakingContract(sushi)
