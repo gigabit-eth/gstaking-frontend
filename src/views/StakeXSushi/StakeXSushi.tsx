@@ -13,6 +13,7 @@ import {getXSushiSupply} from "../../sushi/utils";
 import BigNumber from "bignumber.js";
 import {getBalanceNumber} from "../../utils/formatBalance";
 import { CHAIN_ID } from '../../sushi/lib/constants'
+import {Contract} from "web3-eth-contract";
 
 const StakeXSushi: React.FC = () => {
   const {
@@ -42,10 +43,10 @@ const StakeXSushi: React.FC = () => {
 
 
 
-  const lpContract = useMemo(() => {
+  const lpContract: Contract = useMemo(() => {
     debugger
     return getContract(ethereum as provider, tokenAddress)
-  }, [ethereum, tokenAddress])
+  }, [ethereum, tokenAddress]) as any;
 
   return (
     <>

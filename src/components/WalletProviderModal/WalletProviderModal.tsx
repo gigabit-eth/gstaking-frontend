@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { useWallet } from 'use-wallet'
+import {ConnectionRejectedError, useWallet} from 'use-wallet'
 
 import metamaskLogo from '../../assets/img/metamask-fox.svg'
-import walletConnectLogo from '../../assets/img/wallet-connect.svg'
 
 import Button from '../Button'
 import Modal, { ModalProps } from '../Modal'
@@ -15,10 +14,11 @@ import Spacer from '../Spacer'
 import WalletCard from './components/WalletCard'
 
 const WalletProviderModal: React.FC<ModalProps> = ({ onDismiss }) => {
-  const { account, connect } = useWallet()
+  const { account, connect, error } = useWallet()
 
   useEffect(() => {
     if (account) {
+      console.log('calling onDismiss()')
       onDismiss()
     }
   }, [account, onDismiss])
@@ -28,23 +28,35 @@ const WalletProviderModal: React.FC<ModalProps> = ({ onDismiss }) => {
       <ModalTitle text="Select a wallet provider." />
 
       <ModalContent>
-        <StyledWalletsWrapper>
-          <StyledWalletCard>
-            <WalletCard
-              icon={<img src={metamaskLogo} style={{ height: 32 }}  alt="metamask"/>}
-              onConnect={() => connect('injected')}
-              title="Metamask"
-            />
-          </StyledWalletCard>
-          <Spacer size="sm" />
-          <StyledWalletCard>
-            <WalletCard
-              icon={<img src={walletConnectLogo} style={{ height: 24 }}  alt="walletconnect"/>}
-              onConnect={() => connect('walletconnect')}
-              title="WalletConnect"
-            />
-          </StyledWalletCard>
-        </StyledWalletsWrapper>
+          { error?.name ?
+            (
+              <p style={{color: 'white'}}>
+                {error instanceof ConnectionRejectedError
+                  ? 'Connection error: the user rejected the activation'
+                  : 'Error: ' + error.name + ', ' + error}
+              </p>
+            ) :
+            (
+              <StyledWalletsWrapper>
+                <StyledWalletCard>
+                  <WalletCard
+                    icon={<img src={metamaskLogo} style={{ height: 32 }}  alt="metamask"/>}
+                    onConnect={() => connect('injected')}
+                    title="Metamask"
+                  />
+                </StyledWalletCard>
+                <Spacer size="sm" />
+                {/*<StyledWalletCard>*/}
+                {/*  <WalletCard*/}
+                {/*    icon={<img src={walletConnectLogo} style={{ height: 24 }}  alt="walletconnect"/>}*/}
+                {/*    onConnect={() => connect('walletconnect')}*/}
+                {/*    title="WalletConnect"*/}
+                {/*  />*/}
+                {/*</StyledWalletCard>*/}
+              </StyledWalletsWrapper>
+            )
+          }
+
       </ModalContent>
 
       <ModalActions>

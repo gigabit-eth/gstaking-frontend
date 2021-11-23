@@ -9,6 +9,7 @@ import useFarm from '../../hooks/useFarm'
 import { getContract } from '../../utils/erc20'
 import Harvest from './components/Harvest'
 import Stake from './components/Stake'
+import {Contract} from "web3-eth-contract";
 
 const Farm: React.FC = () => {
   const { farmId } = useParams()
@@ -36,9 +37,9 @@ const Farm: React.FC = () => {
   // const sushi = useSushi()
   const { ethereum } = useWallet()
 
-  const lpContract = useMemo(() => {
+  const lpContract: Contract = useMemo(() => {
     return getContract(ethereum as provider, lpTokenAddress)
-  }, [ethereum, lpTokenAddress])
+  }, [ethereum, lpTokenAddress]) as any;
 
   // const { onRedeem } = useRedeem(getMasterChefContract(sushi))
 

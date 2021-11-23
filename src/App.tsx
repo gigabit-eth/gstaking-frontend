@@ -48,9 +48,13 @@ const Providers: React.FC = ({ children }) => {
       <UseWalletProvider
         // chainId={CHAIN_ID}
         connectors={{
-          walletconnect: { rpcUrl: 'https://mainnet.eth.aragon.network/' },
+          injected: {
+            //allows you to connect and switch between mainnet and rinkeby within Metamask.
+            chainId: [1, 4],
+          },
+          // walletconnect: { rpcUrl: 'https://mainnet.eth.aragon.network/' },
         }}
-       autoConnect={true} pollBalanceInterval={10000} pollBlockNumberInterval={10000}>
+       autoConnect pollBalanceInterval={10000} pollBlockNumberInterval={10000}>
         <SushiProvider>
           <TransactionProvider>
             <FarmsProvider>
