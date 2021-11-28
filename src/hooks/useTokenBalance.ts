@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useWallet } from 'use-wallet'
 
-import { getBalance } from '../utils/erc20'
+import { getBalance } from '../contracts/erc20'
 import useBlock from './useBlock'
 
 const useTokenBalance = (tokenAddress: string) => {

@@ -6,24 +6,24 @@ import { provider } from 'web3-core'
 import PageHeader from '../../components/PageHeader'
 import Spacer from '../../components/Spacer'
 import useFarm from '../../hooks/useFarm'
-import { getContract } from '../../utils/erc20'
 import Harvest from './components/Harvest'
 import Stake from './components/Stake'
 import {Contract} from "web3-eth-contract";
+import {getErc721Contract} from "../../contracts/erc721Farm";
 
 const Farm: React.FC = () => {
   const { farmId } = useParams()
   const {
     pid,
     lpToken,
-    lpTokenAddress,
+    erc721FarmAddress,
     earnToken,
     name,
     icon,
   } = useFarm(farmId) || {
     pid: 0,
     lpToken: '',
-    lpTokenAddress: '',
+    erc721FarmAddress: '',
     tokenAddress: '',
     earnToken: '',
     name: '',
@@ -37,9 +37,11 @@ const Farm: React.FC = () => {
   // const sushi = useSushi()
   const { ethereum } = useWallet()
 
+  console.log('farmContract: ', erc721FarmAddress);
+
   const erc721FarmContract: Contract = useMemo(() => {
-    return getContract(ethereum as provider, lpTokenAddress)
-  }, [ethereum, lpTokenAddress]) as any;
+    return getErc721Contract(ethereum as provider, erc721FarmAddress)
+  }, [ethereum, erc721FarmAddress]) as any;
 
   // const { onRedeem } = useRedeem(getMasterChefContract(sushi))
 
@@ -76,7 +78,7 @@ const Farm: React.FC = () => {
         <Spacer size="md" />
         <StyledLink
           target="__blank"
-          href={`https://etherscan.io/address/${lpTokenAddress}`}
+          href={`https://etherscan.io/address/${erc721FarmAddress}`}
         >
           {lpTokenName} Info
         </StyledLink>

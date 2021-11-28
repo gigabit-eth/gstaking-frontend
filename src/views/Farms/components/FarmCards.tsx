@@ -126,7 +126,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
   const [harvestable, setHarvestable] = useState(0)
 
   const { account } = useWallet()
-  const { lpTokenAddress } = farm
+  const { erc721FarmAddress } = farm
   const sushi = useSushi()
 
   console.log('harvestable: ', harvestable);
@@ -149,7 +149,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
       if (sushi) return
       const earned = await getEarned(
         getMasterChefContract(sushi),
-        lpTokenAddress,
+        erc721FarmAddress,
         account,
       )
       setHarvestable(bnToDec(earned))
@@ -157,7 +157,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
     if (sushi && account) {
       fetchEarned()
     }
-  }, [sushi, lpTokenAddress, account, setHarvestable])
+  }, [sushi, erc721FarmAddress, account, setHarvestable])
 
   const poolActive = true // startTime * 1000 - Date.now() <= 0
 

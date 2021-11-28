@@ -52,7 +52,7 @@ export const getFarms = (sushi) => {
           id: symbol,
           name,
           lpToken: symbol,
-          lpTokenAddress: lpAddress,
+          erc721FarmAddress: lpAddress,
           lpContract,
           tokenAddress,
           tokenSymbol,
@@ -159,7 +159,7 @@ export const getXSushiSupply = async (sushi) => {
 
 export const stakeErc721 = async (erc721FarmContract, tokenId, account) => {
   return erc721FarmContract.methods.deposit([tokenId])
-  .send({from: account})
+  .send({from: account, gas: new BigNumber(21000)})
   .on('transactionHash', tx => {
     console.log(tx);
     return tx.transactionHash;
@@ -172,7 +172,7 @@ export const stake = async (masterChefContract, pid, amount, account) => {
       pid,
       new BigNumber(amount).times(new BigNumber(10).pow(18)).toString(),
     )
-    .send({ from: account })
+    .send({ from: account, gas: new BigNumber(21000) })
     .on('transactionHash', (tx) => {
       console.log(tx)
       return tx.transactionHash

@@ -6,7 +6,7 @@ import {useWallet} from 'use-wallet'
 import {provider} from 'web3-core'
 import {Contract} from 'web3-eth-contract'
 
-import {getAllowance} from '../utils/erc20'
+import {getAllowance} from '../contracts/erc20'
 import {getMasterChefContract, getSushiContract, getXSushiStakingContract} from '../sushi/utils'
 
 const useAllowanceStaking = () => {

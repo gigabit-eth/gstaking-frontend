@@ -5,7 +5,7 @@ import useSushi from './useSushi'
 import { useWallet } from 'use-wallet'
 import { Contract } from 'web3-eth-contract'
 
-import { getAllowance } from '../utils/erc20'
+import { getAllowance } from '../contracts/erc20'
 import { getMasterChefContract } from '../sushi/utils'
 
 const useAllowance = (lpContract: Contract) => {

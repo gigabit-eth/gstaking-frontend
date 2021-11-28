@@ -4,8 +4,8 @@ export interface Farm {
   pid: number
   name: string
   lpToken: string
-  lpTokenAddress: string
-  lpContract: Contract
+  erc721FarmAddress: string
+  farmContract: Contract
   tokenAddress: string
   earnToken: string
   earnTokenAddress: string
