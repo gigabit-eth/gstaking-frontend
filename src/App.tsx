@@ -10,7 +10,6 @@ import TransactionProvider from './contexts/Transactions'
 import SushiProvider from './contexts/SushiProvider'
 import theme from './theme'
 import Farms from './views/Farms'
-import Home from './views/Home'
 // import { CHAIN_ID } from './sushi/lib/constants'
 
 const App: React.FC = () => {
@@ -30,9 +29,9 @@ const App: React.FC = () => {
         <TopBar onPresentMobileMenu={handlePresentMobileMenu} />
         <MobileMenu onDismiss={handleDismissMobileMenu} visible={mobileMenu} />
         <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
+          {/*<Route path="/" exact>*/}
+          {/*  <Home />*/}
+          {/*</Route>*/}
           <Route path="/farms">
             <Farms />
           </Route>
@@ -50,7 +49,7 @@ const Providers: React.FC = ({ children }) => {
         connectors={{
           injected: {
             //allows you to connect and switch between mainnet and rinkeby within Metamask.
-            chainId: [1, 4],
+            chainId: [1, 4, 1337],
           },
           // walletconnect: { rpcUrl: 'https://mainnet.eth.aragon.network/' },
         }}

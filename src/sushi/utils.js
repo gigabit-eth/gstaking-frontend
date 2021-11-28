@@ -75,9 +75,9 @@ export const getPoolWeight = async (masterChefContract, pid) => {
 }
 
 export const getEarned = async (masterChefContract, pid, account) => {
-  console.log('masterChefContract.methods.pendingSushi(pid, account).call()');
+  console.log('masterChefContract.methods.pendingRng(pid, account).call()', pid, account);
   try {
-    return await masterChefContract.methods.pendingSushi(pid, account).call()
+    return await masterChefContract.methods.pendingRng(pid, account).call()
   } catch (err) {
     console.log('Error fetching earned', err);
     return 0;
@@ -92,15 +92,21 @@ export const getTotalLPWethValue = async (
   tokenContract,
   pid,
 ) => {
+  console.log('getTotalLPWethValue mc:', masterChefContract, 'weth: ', wethContract, 'lp: ', lpContract, 'token: ', tokenContract, pid);
   // Get balance of the token address
   const tokenAmountWholeLP = await tokenContract.methods
     .balanceOf(lpContract.options.address)
     .call()
   // const tokenDecimals = await tokenContract.methods.decimals().call()
   // Get the share of lpContract that masterChefContract owns
-  const balance = await lpContract.methods
+  console.log('calling balanceOf');
+  let balance = await lpContract.methods
     .balanceOf(masterChefContract.options.address)
     .call()
+  .catch(err => {
+    console.log('error calling balanceOf: ', err);
+    balance = 0;
+  })
   // Convert that into the portion of total lpContract = p1
   console.log('await lpContract.methods.totalSupply().call()');
   const totalSupply = await lpContract.methods.totalSupply().call()
@@ -149,6 +155,15 @@ export const getSushiSupply = async (sushi) => {
 export const getXSushiSupply = async (sushi) => {
   console.log('sushi.contracts.xSushiStaking.methods.totalSupply().call()')
   return new BigNumber(await sushi.contracts.xSushiStaking.methods.totalSupply().call())
+}
+
+export const stakeErc721 = async (erc721FarmContract, tokenId, account) => {
+  return erc721FarmContract.methods.deposit([tokenId])
+  .send({from: account})
+  .on('transactionHash', tx => {
+    console.log(tx);
+    return tx.transactionHash;
+  })
 }
 
 export const stake = async (masterChefContract, pid, amount, account) => {

@@ -16,9 +16,8 @@ export const Context = createContext<ModalsContext>({
 const Modals: React.FC = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [content, setContent] = useState<React.ReactNode>()
+  // eslint-disable-next-line
   const [modalKey, setModalKey] = useState<string>()
-
-  console.log('modalKey: ', modalKey);
 
   const handlePresent = useCallback((modalContent: React.ReactNode, key?: string) => {
     setModalKey(key)

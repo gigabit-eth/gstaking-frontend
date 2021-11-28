@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Contract } from 'web3-eth-contract'
 import Button from '../../../components/Button'
@@ -10,39 +10,36 @@ import IconButton from '../../../components/IconButton'
 import { AddIcon } from '../../../components/icons'
 import Label from '../../../components/Label'
 import Value from '../../../components/Value'
-import useAllowance from '../../../hooks/useAllowance'
-import useApprove from '../../../hooks/useApprove'
 import useModal from '../../../hooks/useModal'
-import useStake from '../../../hooks/useStake'
 import useStakedBalance from '../../../hooks/useStakedBalance'
-import useTokenBalance from '../../../hooks/useTokenBalance'
 import useUnstake from '../../../hooks/useUnstake'
 import { getBalanceNumber } from '../../../utils/formatBalance'
-import DepositModal from './DepositModal'
 import WithdrawModal from './WithdrawModal'
+import StakeModal from "./StakeModal";
+import useStakeErc721 from "../../../hooks/useStakeErc721";
 
 interface StakeProps {
-  lpContract: Contract
+  erc721FarmContract: Contract
   pid: number
   tokenName: string
 }
 
-const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
-  const [requestedApproval, setRequestedApproval] = useState(false)
+const Stake: React.FC<StakeProps> = ({ erc721FarmContract, pid, tokenName }) => {
+  // const [requestedApproval, setRequestedApproval] = useState(false)
 
-  const allowance = useAllowance(lpContract)
-  const { onApprove } = useApprove(lpContract)
+  // const allowance = useAllowance(lpContract)
+  // const { onApprove } = useApprove(erc721FarmContract)
 
-  const tokenBalance = useTokenBalance(lpContract.options.address)
+  // const tokenBalance = useTokenBalance(erc721FarmContract.options.address)
   const stakedBalance = useStakedBalance(pid)
 
-  const { onStake } = useStake(pid)
+  const { onStakeErc721 } = useStakeErc721(erc721FarmContract)
   const { onUnstake } = useUnstake(pid)
 
   const [onPresentDeposit] = useModal(
-    <DepositModal
-      max={tokenBalance}
-      onConfirm={onStake}
+    <StakeModal
+      // max={tokenBalance}
+      onConfirm={onStakeErc721}
       tokenName={tokenName}
     />,
   )
@@ -55,18 +52,18 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
     />,
   )
 
-  const handleApprove = useCallback(async () => {
-    try {
-      setRequestedApproval(true)
-      const txHash = await onApprove()
-      // user rejected tx or didn't go thru
-      if (!txHash) {
-        setRequestedApproval(false)
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }, [onApprove, setRequestedApproval])
+  // const handleApprove = useCallback(async () => {
+  //   try {
+  //     setRequestedApproval(true)
+  //     const txHash = await onApprove()
+  //     // user rejected tx or didn't go thru
+  //     if (!txHash) {
+  //       setRequestedApproval(false)
+  //     }
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }, [onApprove, setRequestedApproval])
 
   return (
     <Card>
@@ -82,25 +79,17 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
             <Label text={`${tokenName} Staked`} />
           </StyledCardHeader>
           <StyledCardActions>
-            {!allowance.toNumber() ? (
+            <>
               <Button
-                disabled={requestedApproval}
-                onClick={handleApprove}
-                text={`Approve ${tokenName}`}
+                disabled={stakedBalance.eq(new BigNumber(0))}
+                text="Unstake"
+                onClick={onPresentWithdraw}
               />
-            ) : (
-              <>
-                <Button
-                  disabled={stakedBalance.eq(new BigNumber(0))}
-                  text="Unstake"
-                  onClick={onPresentWithdraw}
-                />
-                <StyledActionSpacer />
-                <IconButton onClick={onPresentDeposit}>
-                  <AddIcon />
-                </IconButton>
-              </>
-            )}
+              <StyledActionSpacer />
+              <IconButton onClick={onPresentDeposit}>
+                <AddIcon />
+              </IconButton>
+            </>
           </StyledCardActions>
         </StyledCardContentInner>
       </CardContent>

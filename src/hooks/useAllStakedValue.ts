@@ -8,7 +8,7 @@ import {
   getMasterChefContract,
   getWethContract,
   getFarms,
-  getTotalLPWethValue,
+  getTotalLPWethValue, getPoolWeight,
 } from '../sushi/utils'
 import useSushi from './useSushi'
 import useBlock from './useBlock'
@@ -43,13 +43,22 @@ const useAllStakedValue = () => {
           lpContract: Contract
           tokenContract: Contract
         }) =>
-          getTotalLPWethValue(
-            masterChefContract,
-            wethContact,
-            lpContract,
-            tokenContract,
-            pid,
-          ),
+          (
+            {
+              tokenAmount: new BigNumber(0),
+              wethAmount: new BigNumber(0),
+              totalWethValue: new BigNumber(0),
+              tokenPriceInWeth: new BigNumber(0),
+              poolWeight: new BigNumber(0),
+            }
+          )
+          // getTotalLPWethValue(
+          //   masterChefContract,
+          //   wethContact,
+          //   lpContract,
+          //   tokenContract,
+          //   pid,
+          // ),
       ),
     )
 

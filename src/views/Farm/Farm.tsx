@@ -37,7 +37,7 @@ const Farm: React.FC = () => {
   // const sushi = useSushi()
   const { ethereum } = useWallet()
 
-  const lpContract: Contract = useMemo(() => {
+  const erc721FarmContract: Contract = useMemo(() => {
     return getContract(ethereum as provider, lpTokenAddress)
   }, [ethereum, lpTokenAddress]) as any;
 
@@ -65,7 +65,7 @@ const Farm: React.FC = () => {
           </StyledCardWrapper>
           <Spacer />
           <StyledCardWrapper>
-            <Stake lpContract={lpContract} pid={pid} tokenName={lpToken} />
+            <Stake erc721FarmContract={erc721FarmContract} pid={pid} tokenName={lpToken} />
           </StyledCardWrapper>
         </StyledCardsWrapper>
         <Spacer size="lg" />

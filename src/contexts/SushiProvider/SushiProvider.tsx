@@ -40,6 +40,7 @@ const SushiProvider: React.FC = ({ children }) => {
         accounts: [],
         ethereumNodeTimeout: 10000,
       })
+      console.log('set sushi: ', sushiLib);
       setSushi(sushiLib)
       window.sushisauce = sushiLib
     }

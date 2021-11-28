@@ -10,7 +10,7 @@ import PageHeader from '../../components/PageHeader'
 import WalletProviderModal from '../../components/WalletProviderModal'
 
 import useModal from '../../hooks/useModal'
-import StakeXSushi from "../StakeXSushi";
+// import StakeXSushi from "../StakeXSushi";
 
 const Staking: React.FC = () => {
   const {path} = useRouteMatch()
@@ -28,7 +28,7 @@ const Staking: React.FC = () => {
                 title="Irasshaimase!"
               />
             </Route>
-            <StakeXSushi/>
+            {/*<StakeXSushi/>*/}
           </>
         ) : (
           <div

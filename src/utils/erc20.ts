@@ -26,6 +26,7 @@ export const getAllowance = async (
       .call()
     return allowance
   } catch (e) {
+    console.error('Error fetching allowance: ', e);
     return '0'
   }
 }

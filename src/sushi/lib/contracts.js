@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js/bignumber'
 // import ERC20Abi from './abi/erc20.json'
 import ERC721Abi from './abi/erc721.json'
 import MasterChefAbi from './abi/masterchef.json'
-import XSushiAbi from './abi/xsushi.json'
 import SushiAbi from './abi/sushi.json'
 import UNIV2PairAbi from './abi/uni_v2_lp.json'
 import WETHAbi from './abi/weth.json'
@@ -25,17 +24,20 @@ export class Contracts {
 
     this.sushi = new this.web3.eth.Contract(SushiAbi)
     this.masterChef = new this.web3.eth.Contract(MasterChefAbi)
-    this.xSushiStaking = new this.web3.eth.Contract(XSushiAbi)
+    // this.xSushiStaking = new this.web3.eth.Contract(XSushiAbi)
     this.weth = new this.web3.eth.Contract(WETHAbi)
 
-    this.pools = supportedPools.map((pool) =>
-      Object.assign(pool, {
+    console.log('setting pools', supportedPools);
+    this.pools = supportedPools.map((pool) => {
+      console.log('mapping pool: ', pool, 'networkId: ', networkId);
+      return Object.assign(pool, {
         lpAddress: pool.lpAddresses[networkId],
         tokenAddress: pool.tokenAddresses[networkId],
-        lpContract: new this.web3.eth.Contract(UNIV2PairAbi),
-        tokenContract: new this.web3.eth.Contract(ERC721Abi),
-      }),
-    )
+        lpContract: new this.web3.eth.Contract(UNIV2PairAbi, pool.lpAddresses[networkId]),
+        tokenContract: new this.web3.eth.Contract(ERC721Abi, pool.tokenAddresses[networkId]),
+      })
+    })
+    console.log('pools: ', this.pools);
 
     this.setProvider(provider, networkId)
     this.setDefaultAccount(this.web3.eth.defaultAccount)
@@ -48,14 +50,19 @@ export class Contracts {
       else console.error('Contract address not found in network', networkId)
     }
 
+    console.log('set sushi provider');
     setProvider(this.sushi, contractAddresses.sushi[networkId])
+    console.log('set mc provider');
     setProvider(this.masterChef, contractAddresses.masterChef[networkId])
-    setProvider(this.xSushiStaking, contractAddresses.xSushi[networkId])
+    // setProvider(this.xSushiStaking, contractAddresses.xSushi[networkId])
+    console.log('set weth provider');
     setProvider(this.weth, contractAddresses.weth[networkId])
 
     this.pools.forEach(
       ({ lpContract, lpAddress, tokenContract, tokenAddress }) => {
+        console.log('set lp provider: ', lpAddress);
         setProvider(lpContract, lpAddress)
+        console.log('set token provider: ', tokenAddress);
         setProvider(tokenContract, tokenAddress)
       },
     )
