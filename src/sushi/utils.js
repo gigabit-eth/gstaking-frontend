@@ -35,34 +35,35 @@ export const getXSushiStakingContract = (sushi) => {
 }
 
 export const getFarms = (sushi) => {
-  return sushi
-    ? sushi.contracts.pools.map(
-        ({
-          pid,
-          name,
-          symbol,
-          icon,
-          tokenAddress,
-          tokenSymbol,
-          tokenContract,
-          lpAddress,
-          lpContract,
-        }) => ({
-          pid,
-          id: symbol,
-          name,
-          lpToken: symbol,
-          erc721FarmAddress: lpAddress,
-          lpContract,
-          tokenAddress,
-          tokenSymbol,
-          tokenContract,
-          earnToken: 'RNG',
-          earnTokenAddress: sushi.contracts.sushi.options.address,
-          icon,
-        }),
-      )
-    : []
+  return sushi ? sushi.contracts.farms : [];
+  // return sushi
+  //   ? sushi.contracts.farms.map(
+  //       ({
+  //         // pid,
+  //         name,
+  //         symbol,
+  //         icon,
+  //         tokenAddress,
+  //         tokenSymbol,
+  //         tokenContract,
+  //         lpAddress,
+  //         lpContract,
+  //       }) => ({
+  //         // pid,
+  //         id: symbol,
+  //         name,
+  //         lpToken: symbol,
+  //         erc721FarmAddress: lpAddress,
+  //         lpContract,
+  //         tokenAddress,
+  //         tokenSymbol,
+  //         tokenContract,
+  //         earnToken: 'RNG',
+  //         earnTokenAddress: sushi.contracts.sushi.options.address,
+  //         icon,
+  //       }),
+  //     )
+  //   : []
 }
 
 export const getPoolWeight = async (masterChefContract, pid) => {
@@ -159,10 +160,13 @@ export const getXSushiSupply = async (sushi) => {
 
 export const stakeErc721 = async (erc721FarmContract, tokenId, account) => {
   return erc721FarmContract.methods.deposit([tokenId])
-  .send({from: account, gas: new BigNumber(21000)})
+  .send({from: account, gas: new BigNumber(284840)})
   .on('transactionHash', tx => {
     console.log(tx);
     return tx.transactionHash;
+  })
+  .on('error', err => {
+    console.error('Tx error: ', err);
   })
 }
 

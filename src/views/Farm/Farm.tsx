@@ -1,73 +1,63 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { useWallet } from 'use-wallet'
-import { provider } from 'web3-core'
 import PageHeader from '../../components/PageHeader'
 import Spacer from '../../components/Spacer'
 import useFarm from '../../hooks/useFarm'
 import Harvest from './components/Harvest'
 import Stake from './components/Stake'
-import {Contract} from "web3-eth-contract";
-import {getErc721Contract} from "../../contracts/erc721Farm";
 
 const Farm: React.FC = () => {
   const { farmId } = useParams()
-  const {
-    pid,
-    lpToken,
-    erc721FarmAddress,
-    earnToken,
-    name,
-    icon,
-  } = useFarm(farmId) || {
-    pid: 0,
-    lpToken: '',
-    erc721FarmAddress: '',
-    tokenAddress: '',
-    earnToken: '',
-    name: '',
-    icon: '',
-  }
+  const farm = useFarm(farmId);
+  // const {
+  //   // pid,
+  //   erc721TokenAddress,
+  //   erc721FarmAddress,
+  //   earnTokenName,
+  //   name,
+  //   icon,
+  // } = useFarm(farmId)
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
   // const sushi = useSushi()
-  const { ethereum } = useWallet()
+  // const { ethereum } = useWallet()
 
-  console.log('farmContract: ', erc721FarmAddress);
+  console.log('Farm.tsx: ', farm);
 
-  const erc721FarmContract: Contract = useMemo(() => {
-    return getErc721Contract(ethereum as provider, erc721FarmAddress)
-  }, [ethereum, erc721FarmAddress]) as any;
+  // const erc721FarmContract: Contract = useMemo(() => {
+  //   return getErc721Contract(ethereum as provider, farm.erc721FarmAddress)
+  // }, [ethereum, farm.erc721FarmAddress]) as any;
 
   // const { onRedeem } = useRedeem(getMasterChefContract(sushi))
 
-  const lpTokenName = useMemo(() => {
-    return lpToken
-  }, [lpToken])
+  // const erc721TokenName = useMemo(() => {
+  //   return farm.erc721TokenAddress
+  // }, [farm.erc721TokenAddress])
 
-  const earnTokenName = useMemo(() => {
-    return earnToken.toUpperCase()
-  }, [earnToken])
+  // const earnTokenNameDisplay = useMemo(() => {
+  //   return farm.earnTokenName.toUpperCase()
+  // }, [farm.earnTokenName])
+
 
   return (
     <>
       <PageHeader
-        icon={icon}
-        subtitle={`Deposit ${lpTokenName}  NFTs and earn ${earnTokenName}`}
-        title={name}
+        icon={farm.icon}
+        subtitle={`Deposit ${farm.erc721TokenName}  NFTs and earn ${farm.earnTokenName}`}
+        title={farm.name}
       />
       <StyledFarm>
         <StyledCardsWrapper>
           <StyledCardWrapper>
-            <Harvest pid={pid} />
+            <Harvest />
           </StyledCardWrapper>
           <Spacer />
           <StyledCardWrapper>
-            <Stake erc721FarmContract={erc721FarmContract} pid={pid} tokenName={lpToken} />
+            <Stake erc721FarmContract={farm.erc721FarmContract} tokenName={farm.erc721TokenName} />
           </StyledCardWrapper>
         </StyledCardsWrapper>
         <Spacer size="lg" />
@@ -78,9 +68,9 @@ const Farm: React.FC = () => {
         <Spacer size="md" />
         <StyledLink
           target="__blank"
-          href={`https://etherscan.io/address/${erc721FarmAddress}`}
+          href={`https://etherscan.io/address/${farm.erc721FarmAddress}`}
         >
-          {lpTokenName} Info
+          {farm.erc721TokenName} Info
         </StyledLink>
       </StyledFarm>
     </>

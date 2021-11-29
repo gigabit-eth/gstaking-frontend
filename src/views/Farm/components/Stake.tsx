@@ -11,7 +11,6 @@ import { AddIcon } from '../../../components/icons'
 import Label from '../../../components/Label'
 import Value from '../../../components/Value'
 import useModal from '../../../hooks/useModal'
-import useStakedBalance from '../../../hooks/useStakedBalance'
 import useUnstake from '../../../hooks/useUnstake'
 import { getBalanceNumber } from '../../../utils/formatBalance'
 import WithdrawModal from './WithdrawModal'
@@ -20,21 +19,24 @@ import useStakeErc721 from "../../../hooks/useStakeErc721";
 
 interface StakeProps {
   erc721FarmContract: Contract
-  pid: number
+  // pid: number
   tokenName: string
 }
 
-const Stake: React.FC<StakeProps> = ({ erc721FarmContract, pid, tokenName }) => {
+const Stake: React.FC<StakeProps> = ({ erc721FarmContract, tokenName }) => {
   // const [requestedApproval, setRequestedApproval] = useState(false)
 
   // const allowance = useAllowance(lpContract)
   // const { onApprove } = useApprove(erc721FarmContract)
 
   // const tokenBalance = useTokenBalance(erc721FarmContract.options.address)
-  const stakedBalance = useStakedBalance(pid)
+  // const stakedBalance = useStakedBalance(pid)
+  const stakedBalance = new BigNumber(0);
+
+  console.log('this is not the farm contract wtf: ', erc721FarmContract.options.address);
 
   const { onStakeErc721 } = useStakeErc721(erc721FarmContract)
-  const { onUnstake } = useUnstake(pid)
+  const { onUnstake } = useUnstake(0)
 
   const [onPresentDeposit] = useModal(
     <StakeModal
