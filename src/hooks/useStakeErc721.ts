@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 
 import { useWallet } from 'use-wallet'
 
-import {stakeErc721} from '../sushi/utils'
 import {Contract} from "web3-eth-contract";
+import {stakeErc721} from "../contracts/erc721Farm";
 
 const useStakeErc721 = (erc721FarmContract: Contract) => {
   const { account } = useWallet()

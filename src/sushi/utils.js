@@ -158,18 +158,6 @@ export const getXSushiSupply = async (sushi) => {
   return new BigNumber(await sushi.contracts.xSushiStaking.methods.totalSupply().call())
 }
 
-export const stakeErc721 = async (erc721FarmContract, tokenId, account) => {
-  return erc721FarmContract.methods.deposit([tokenId])
-  .send({from: account, gas: new BigNumber(284840)})
-  .on('transactionHash', tx => {
-    console.log(tx);
-    return tx.transactionHash;
-  })
-  .on('error', err => {
-    console.error('Tx error: ', err);
-  })
-}
-
 export const stake = async (masterChefContract, pid, amount, account) => {
   return masterChefContract.methods
     .deposit(

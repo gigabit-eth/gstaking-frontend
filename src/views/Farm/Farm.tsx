@@ -57,7 +57,7 @@ const Farm: React.FC = () => {
           </StyledCardWrapper>
           <Spacer />
           <StyledCardWrapper>
-            <Stake erc721FarmContract={farm.erc721FarmContract} tokenName={farm.erc721TokenName} />
+            <Stake erc721TokenContract={farm.erc721TokenContract} erc721FarmContract={farm.erc721FarmContract} tokenName={farm.erc721TokenName} />
           </StyledCardWrapper>
         </StyledCardsWrapper>
         <Spacer size="lg" />

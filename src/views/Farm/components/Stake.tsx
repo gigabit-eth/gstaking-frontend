@@ -16,14 +16,17 @@ import { getBalanceNumber } from '../../../utils/formatBalance'
 import WithdrawModal from './WithdrawModal'
 import StakeModal from "./StakeModal";
 import useStakeErc721 from "../../../hooks/useStakeErc721";
+import useApproveErc721Farm from "../../../hooks/useApproveErc721Farm";
+import ApproveModal from "./ApproveModal";
 
 interface StakeProps {
+  erc721TokenContract: Contract
   erc721FarmContract: Contract
   // pid: number
   tokenName: string
 }
 
-const Stake: React.FC<StakeProps> = ({ erc721FarmContract, tokenName }) => {
+const Stake: React.FC<StakeProps> = ({ erc721TokenContract, erc721FarmContract, tokenName }) => {
   // const [requestedApproval, setRequestedApproval] = useState(false)
 
   // const allowance = useAllowance(lpContract)
@@ -33,10 +36,9 @@ const Stake: React.FC<StakeProps> = ({ erc721FarmContract, tokenName }) => {
   // const stakedBalance = useStakedBalance(pid)
   const stakedBalance = new BigNumber(0);
 
-  console.log('this is not the farm contract wtf: ', erc721FarmContract.options.address);
-
   const { onStakeErc721 } = useStakeErc721(erc721FarmContract)
   const { onUnstake } = useUnstake(0)
+  const { onApproveErc721Farm } = useApproveErc721Farm(erc721TokenContract, erc721FarmContract)
 
   const [onPresentDeposit] = useModal(
     <StakeModal
@@ -52,6 +54,13 @@ const Stake: React.FC<StakeProps> = ({ erc721FarmContract, tokenName }) => {
       onConfirm={onUnstake}
       tokenName={tokenName}
     />,
+  )
+
+  const [onPresentApprove] = useModal(
+    <ApproveModal
+      // max={new BigNumber(10)}
+      onConfirm={onApproveErc721Farm}
+    />
   )
 
   // const handleApprove = useCallback(async () => {
@@ -82,6 +91,11 @@ const Stake: React.FC<StakeProps> = ({ erc721FarmContract, tokenName }) => {
           </StyledCardHeader>
           <StyledCardActions>
             <>
+              <Button
+                disabled={false}
+                text="Approve"
+                onClick={onPresentApprove}
+              />
               <Button
                 disabled={stakedBalance.eq(new BigNumber(0))}
                 text="Unstake"

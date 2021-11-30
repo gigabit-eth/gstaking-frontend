@@ -8,6 +8,7 @@ export interface Farm {
   erc721TokenAddress: string
   erc721FarmAddress: string
   erc721FarmContract: Contract
+  erc721TokenContract: Contract
   // tokenAddress: string
   earnTokenName: string
   earnTokenAddress: string
