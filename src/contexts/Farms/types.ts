@@ -1,17 +1,20 @@
-import { Contract } from 'web3-eth-contract'
+import {Contract} from "web3-eth-contract";
 
 export interface Farm {
-  pid: number
+  // pid: number
   name: string
-  lpToken: string
-  lpTokenAddress: string
-  lpContract: Contract
-  tokenAddress: string
-  earnToken: string
+  // lpToken: string
+  erc721TokenName: string
+  erc721TokenAddress: string
+  erc721FarmAddress: string
+  erc721FarmContract: Contract
+  erc721TokenContract: Contract
+  // tokenAddress: string
+  earnTokenName: string
   earnTokenAddress: string
   icon: React.ReactNode
   id: string
-  tokenSymbol: string
+  // tokenSymbol: string
 }
 
 export interface FarmsContext {

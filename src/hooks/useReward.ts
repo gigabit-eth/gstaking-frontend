@@ -14,7 +14,7 @@ const useReward = (pid: number) => {
     const txHash = await harvest(masterChefContract, pid, account)
     console.log(txHash)
     return txHash
-  }, [account, pid, sushi])
+  }, [account, pid, masterChefContract])
 
   return { onReward: handleReward }
 }

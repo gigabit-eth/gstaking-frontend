@@ -1,87 +1,76 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { useWallet } from 'use-wallet'
-import { provider } from 'web3-core'
 import PageHeader from '../../components/PageHeader'
 import Spacer from '../../components/Spacer'
 import useFarm from '../../hooks/useFarm'
-import useRedeem from '../../hooks/useRedeem'
-import useSushi from '../../hooks/useSushi'
-import { getMasterChefContract } from '../../sushi/utils'
-import { getContract } from '../../utils/erc20'
 import Harvest from './components/Harvest'
 import Stake from './components/Stake'
 
 const Farm: React.FC = () => {
   const { farmId } = useParams()
-  const {
-    pid,
-    lpToken,
-    lpTokenAddress,
-    tokenAddress,
-    earnToken,
-    name,
-    icon,
-  } = useFarm(farmId) || {
-    pid: 0,
-    lpToken: '',
-    lpTokenAddress: '',
-    tokenAddress: '',
-    earnToken: '',
-    name: '',
-    icon: '',
-  }
+  const farm = useFarm(farmId);
+  // const {
+  //   // pid,
+  //   erc721TokenAddress,
+  //   erc721FarmAddress,
+  //   earnTokenName,
+  //   name,
+  //   icon,
+  // } = useFarm(farmId)
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
-  const sushi = useSushi()
-  const { ethereum } = useWallet()
+  // const sushi = useSushi()
+  // const { ethereum } = useWallet()
 
-  const lpContract = useMemo(() => {
-    return getContract(ethereum as provider, lpTokenAddress)
-  }, [ethereum, lpTokenAddress])
+  console.log('Farm.tsx: ', farm);
 
-  const { onRedeem } = useRedeem(getMasterChefContract(sushi))
+  // const erc721FarmContract: Contract = useMemo(() => {
+  //   return getErc721Contract(ethereum as provider, farm.erc721FarmAddress)
+  // }, [ethereum, farm.erc721FarmAddress]) as any;
 
-  const lpTokenName = useMemo(() => {
-    return lpToken
-  }, [lpToken])
+  // const { onRedeem } = useRedeem(getMasterChefContract(sushi))
 
-  const earnTokenName = useMemo(() => {
-    return earnToken.toUpperCase()
-  }, [earnToken])
+  // const erc721TokenName = useMemo(() => {
+  //   return farm.erc721TokenAddress
+  // }, [farm.erc721TokenAddress])
+
+  // const earnTokenNameDisplay = useMemo(() => {
+  //   return farm.earnTokenName.toUpperCase()
+  // }, [farm.earnTokenName])
+
 
   return (
     <>
       <PageHeader
-        icon={icon}
-        subtitle={`Deposit ${lpTokenName}  NFTs and earn ${earnTokenName}`}
-        title={name}
+        icon={farm.icon}
+        subtitle={`Deposit ${farm.erc721TokenName}  NFTs and earn ${farm.earnTokenName}`}
+        title={farm.name}
       />
       <StyledFarm>
         <StyledCardsWrapper>
           <StyledCardWrapper>
-            <Harvest pid={pid} />
+            <Harvest />
           </StyledCardWrapper>
           <Spacer />
           <StyledCardWrapper>
-            <Stake lpContract={lpContract} pid={pid} tokenName={lpToken} />
+            <Stake erc721TokenContract={farm.erc721TokenContract} erc721FarmContract={farm.erc721FarmContract} tokenName={farm.erc721TokenName} />
           </StyledCardWrapper>
         </StyledCardsWrapper>
         <Spacer size="lg" />
         <StyledInfo>
-        ⚡ Unstake an NFT, and the contract will
+        <span role="img" aria-label="bolt">⚡</span> Unstake an NFT, and the contract will
           automatically harvest $RNG rewards for you!
         </StyledInfo>
         <Spacer size="md" />
         <StyledLink
           target="__blank"
-          href={`https://etherscan.io/address/${lpTokenAddress}`}
+          href={`https://etherscan.io/address/${farm.erc721FarmAddress}`}
         >
-          {lpTokenName} Info
+          {farm.erc721TokenName} Info
         </StyledLink>
       </StyledFarm>
     </>

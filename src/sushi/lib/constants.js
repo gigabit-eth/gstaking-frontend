@@ -453,62 +453,89 @@ SLP Address on mainnet for reference
 
 // RNG Staking SETTINGS
 
-// 4 = Rinkeby, 1 = Mainnet
-export const CHAIN_ID = 4
+// 4 = Rinkeby, 1 = Mainnet, 55 = Hardhat Localhost
+const HARDHAT_CHAIN_ID = 1337;
+export const CHAIN_ID = HARDHAT_CHAIN_ID
 
 export const contractAddresses = {
   sushi: {
-    4: '0x288AC09985b06a9D1a5e1494dBEab861a8173294', //SushiToken.sol?
+    // 4: '0x288AC09985b06a9D1a5e1494dBEab861a8173294', //SushiToken.sol?
+    [CHAIN_ID]: '0x5FbDB2315678afecb367f032d93F642f64180aa3'
   },
   masterChef: {
-    4: '0x14f1840D511B0D3a707370795E8bc8577B2d8Aa6', // MasterChef.sol
+    // 4: '0x14f1840D511B0D3a707370795E8bc8577B2d8Aa6', // MasterChef.sol
+    [CHAIN_ID]: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0'
   },
   weth: {
-    4: '0xc778417e063141139fce010982780140aa0cd5ab',
-  },
-  xSushi: {
-    4: '0x8798249c2e607446efb7ad49ec89dd1865ff4272', // NOTE: Not in use
-  },
+    // 4: '0xc778417e063141139fce010982780140aa0cd5ab',
+    [CHAIN_ID]: '0xc778417e063141139fce010982780140aa0cd5ab'
+  }
 }
 
-export const supportedPools = [
+
+export const supportedFarms = [
   {
-    pid: 0,
-    lpAddresses: {
-      4: '0x1b9f1831fC85e0c78c94Fcca1DA0EeB3F98c2Fa8', // LP Token Address (ERC721Farm.sol on Rinkeby: 0xD873A9b872B47D0D4A42Ca8C66f2aBb2edd53746)
+    erc721TokenAddresses: {
+      [CHAIN_ID]: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
     },
-    tokenAddresses: {
-      4: '0x236A9Ff76a5feBc95CaBA0ce7590a8C001b7a891', // Token, i.e. "DAI" (RNGPROXY.sol on Rinkeby: 0xbb1da4fB387D4B47d5e90Ea144729FfdCf96c406)
+    erc721TokenNames: {
+      [CHAIN_ID]: 'GAUS'
+    },
+    erc721FarmAddresses: {
+      [CHAIN_ID]: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
+    },
+    earnTokenAddresses: {
+      [CHAIN_ID]: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+    },
+    earnTokenNames: {
+      [CHAIN_ID]: 'RNG'
     },
     name: 'Gaussian Protocol',
-    symbol: 'GAUS',
-    tokenSymbol: 'RNG',
+    id: 'GAUS',
+    // symbol: 'GAUS',
+    // tokenSymbol: 'RNG',
     icon: '🛎️',
-  },
-  {
-    pid: 0,
-    lpAddresses: {
-      4: '0x63e1d27b20105E5f659caBF1F4EF9dab798E9232', // N Farm
-    },
-    tokenAddresses: {
-      4: '0xaeB9ae8eB9772a82555c423441Ca4687222Fc4BE', // N Token
-    },
-    name: 'The N Project',
-    symbol: 'N',
-    tokenSymbol: 'RNG',
-    icon: '🧮',
-  },
-  {
-    pid: 0,
-    lpAddresses: {
-      4: '0xb2855f27269644741a4D83CBdE333FC4900F81b8', // Loot Farm
-    },
-    tokenAddresses: {
-      4: '0x1854b5940782b71f8B3Dd43D0D88743C80f41198', // Loot Token
-    },
-    name: 'Loot',
-    symbol: 'LOOT',
-    tokenSymbol: 'RNG',
-    icon: '🎒',
-  },
+  }
 ]
+
+// export const supportedPools = [
+//   {
+//     pid: 0,
+//     lpAddresses: {
+//       [CHAIN_ID]: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512', // LP Token Address (ERC721Farm.sol on Rinkeby: 0xD873A9b872B47D0D4A42Ca8C66f2aBb2edd53746)
+//     },
+//     tokenAddresses: {
+//       [CHAIN_ID]: '0x5FbDB2315678afecb367f032d93F642f64180aa3', // Token, i.e. "DAI" (RNGPROXY.sol on Rinkeby: 0xbb1da4fB387D4B47d5e90Ea144729FfdCf96c406)
+//     },
+//     name: 'Gaussian Protocol',
+//     symbol: 'GAUS',
+//     tokenSymbol: 'RNG',
+//     icon: '🛎️',
+//   },
+//   // {
+//   //   pid: 0,
+//   //   lpAddresses: {
+//   //     4: '0x63e1d27b20105E5f659caBF1F4EF9dab798E9232', // N Farm
+//   //   },
+//   //   tokenAddresses: {
+//   //     4: '0xaeB9ae8eB9772a82555c423441Ca4687222Fc4BE', // N Token
+//   //   },
+//   //   name: 'The N Project',
+//   //   symbol: 'N',
+//   //   tokenSymbol: 'RNG',
+//   //   icon: '🧮',
+//   // },
+//   // {
+//   //   pid: 0,
+//   //   lpAddresses: {
+//   //     4: '0xb2855f27269644741a4D83CBdE333FC4900F81b8', // Loot Farm
+//   //   },
+//   //   tokenAddresses: {
+//   //     4: '0x1854b5940782b71f8B3Dd43D0D88743C80f41198', // Loot Token
+//   //   },
+//   //   name: 'Loot',
+//   //   symbol: 'LOOT',
+//   //   tokenSymbol: 'RNG',
+//   //   icon: '🎒',
+//   // },
+// ]

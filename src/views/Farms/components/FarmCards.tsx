@@ -1,18 +1,15 @@
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import Countdown, { CountdownRenderProps } from 'react-countdown'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { useWallet } from 'use-wallet'
 import Button from '../../../components/Button'
 import Card from '../../../components/Card'
 import CardContent from '../../../components/CardContent'
 import CardIcon from '../../../components/CardIcon'
-import Loader from '../../../components/Loader'
 import Spacer from '../../../components/Spacer'
 import { Farm } from '../../../contexts/Farms'
-import useAllStakedValue, {
-  StakedValue,
-} from '../../../hooks/useAllStakedValue'
+import {StakedValue} from '../../../hooks/useAllStakedValue'
 import useFarms from '../../../hooks/useFarms'
 import useSushi from '../../../hooks/useSushi'
 import { getEarned, getMasterChefContract } from '../../../sushi/utils'
@@ -24,65 +21,97 @@ interface FarmWithStakedValue extends Farm, StakedValue {
 
 const FarmCards: React.FC = () => {
   const [farms] = useFarms()
-  const { account } = useWallet()
-  const stakedValue = useAllStakedValue()
+  // const { account } = useWallet()
+  // const stakedValue = useAllStakedValue()
 
-  const sushiIndex = farms.findIndex(
-    ({ tokenSymbol }) => tokenSymbol === 'SUSHI',
-  )
+  // const sushiIndex = farms.findIndex(
+  //   ({ tokenSymbol }) => tokenSymbol === 'SUSHI',
+  // )
 
-  console.log(stakedValue);
+  // console.log(stakedValue);
+  //
+  // const sushiPrice =
+  //   sushiIndex >= 0 && stakedValue[sushiIndex]
+  //     ? stakedValue[sushiIndex].tokenPriceInWeth
+  //     : new BigNumber(0)
+  //
+  // const BLOCKS_PER_YEAR = new BigNumber(2336000)
+  // const SUSHI_PER_BLOCK = new BigNumber(100)
 
-  const sushiPrice =
-    sushiIndex >= 0 && stakedValue[sushiIndex]
-      ? stakedValue[sushiIndex].tokenPriceInWeth
-      : new BigNumber(0)
+  // const rows = farms.reduce<FarmWithStakedValue[][]>(
+  //   (farmRows, farm, i) => {
+  //     const farmWithStakedValue = {
+  //       ...farm,
+  //       ...{
+  //         tokenAmount: new BigNumber(0),
+  //         wethAmount: new BigNumber(0),
+  //         totalWethValue: new BigNumber(0),
+  //         tokenPriceInWeth: new BigNumber(0),
+  //         poolWeight: new BigNumber(0)
+  //       },
+  //       // ...stakedValue[i],
+  //       apy: new BigNumber(0),
+  //       // apy: stakedValue[i]
+  //       //   ? sushiPrice
+  //       //       .times(SUSHI_PER_BLOCK)
+  //       //       .times(BLOCKS_PER_YEAR)
+  //       //       .times(stakedValue[i].poolWeight)
+  //       //       .div(stakedValue[i].totalWethValue)
+  //       //   : null,
+  //     }
+  //     const newFarmRows = [...farmRows]
+  //     if (newFarmRows[newFarmRows.length - 1].length === 3) {
+  //       newFarmRows.push([farmWithStakedValue])
+  //     } else {
+  //       newFarmRows[newFarmRows.length - 1].push(farmWithStakedValue)
+  //     }
+  //     return newFarmRows
+  //   },
+  //   [[]],
+  // )
 
-  const BLOCKS_PER_YEAR = new BigNumber(2336000)
-  const SUSHI_PER_BLOCK = new BigNumber(100)
+  // const rows: Array<Array<FarmWithStakedValue>> = [];
 
-  const rows = farms.reduce<FarmWithStakedValue[][]>(
-    (farmRows, farm, i) => {
-      const farmWithStakedValue = {
-        ...farm,
-        ...stakedValue[i],
-        apy: stakedValue[i]
-          ? sushiPrice
-              .times(SUSHI_PER_BLOCK)
-              .times(BLOCKS_PER_YEAR)
-              .times(stakedValue[i].poolWeight)
-              .div(stakedValue[i].totalWethValue)
-          : null,
-      }
-      const newFarmRows = [...farmRows]
-      if (newFarmRows[newFarmRows.length - 1].length === 3) {
-        newFarmRows.push([farmWithStakedValue])
-      } else {
-        newFarmRows[newFarmRows.length - 1].push(farmWithStakedValue)
-      }
-      return newFarmRows
-    },
-    [[]],
-  )
+  // return (
+  //   <StyledCards>
+  //     {!!rows[0].length ? (
+  //       rows.map((farmRow, i) => (
+  //         <StyledRow key={i}>
+  //           {farmRow.map((farm, j) => (
+  //             <React.Fragment key={j}>
+  //               <FarmCard farm={farm} />
+  //               {(j === 0 || j === 1) && <StyledSpacer />}
+  //             </React.Fragment>
+  //           ))}
+  //         </StyledRow>
+  //       ))
+  //     ) : (
+  //       <StyledLoadingWrapper>
+  //         <Loader text="Cooking the rice ..." />
+  //       </StyledLoadingWrapper>
+  //     )}
+  //   </StyledCards>
+  // )
 
   return (
     <StyledCards>
-      {!!rows[0].length ? (
-        rows.map((farmRow, i) => (
-          <StyledRow key={i}>
-            {farmRow.map((farm, j) => (
-              <React.Fragment key={j}>
-                <FarmCard farm={farm} />
-                {(j === 0 || j === 1) && <StyledSpacer />}
-              </React.Fragment>
-            ))}
-          </StyledRow>
-        ))
-      ) : (
-        <StyledLoadingWrapper>
-          <Loader text="Cooking the rice ..." />
-        </StyledLoadingWrapper>
-      )}
+      <StyledRow key={'row1'}>
+        {farms.map((farm, i) => (
+          <React.Fragment key={i}>
+            <FarmCard farm={{
+              ...farm,
+              apy: new BigNumber(0),
+              tokenAmount: new BigNumber(0),
+              wethAmount: new BigNumber(0),
+              totalWethValue: new BigNumber(0),
+              tokenPriceInWeth: new BigNumber(0),
+              poolWeight: new BigNumber(0)
+            }} />
+            {(i === 0 || i === 1) && <StyledSpacer />}
+          </React.Fragment>
+        ))}
+      </StyledRow>
+
     </StyledCards>
   )
 }
@@ -92,12 +121,15 @@ interface FarmCardProps {
 }
 
 const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
-  const [startTime, setStartTime] = useState(0)
+  const [startTime] = useState(0)
+  //eslint-disable-next-line
   const [harvestable, setHarvestable] = useState(0)
 
   const { account } = useWallet()
-  const { lpTokenAddress } = farm
+  const { erc721FarmAddress } = farm
   const sushi = useSushi()
+
+  // console.log('harvestable: ', harvestable);
 
   const renderer = (countdownProps: CountdownRenderProps) => {
     const { hours, minutes, seconds } = countdownProps
@@ -113,10 +145,11 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
 
   useEffect(() => {
     async function fetchEarned() {
+      console.log('fetchEarned()');
       if (sushi) return
       const earned = await getEarned(
         getMasterChefContract(sushi),
-        lpTokenAddress,
+        erc721FarmAddress,
         account,
       )
       setHarvestable(bnToDec(earned))
@@ -124,21 +157,21 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
     if (sushi && account) {
       fetchEarned()
     }
-  }, [sushi, lpTokenAddress, account, setHarvestable])
+  }, [sushi, erc721FarmAddress, account, setHarvestable])
 
   const poolActive = true // startTime * 1000 - Date.now() <= 0
 
   return (
     <StyledCardWrapper>
-      {farm.tokenSymbol === 'DAI' && <StyledCardAccent />}
+      {/*{farm.tokenSymbol === 'DAI' && <StyledCardAccent />}*/}
       <Card>
         <CardContent>
           <StyledContent>
             <CardIcon>{farm.icon}</CardIcon>
             <StyledTitle>{farm.name}</StyledTitle>
             <StyledDetails>
-              <StyledDetail>Deposit {farm.lpToken}</StyledDetail>
-              <StyledDetail>Earn {farm.earnToken.toUpperCase()}</StyledDetail>
+              <StyledDetail>Deposit {farm.erc721TokenName}</StyledDetail>
+              <StyledDetail>Earn {farm.earnTokenName.toUpperCase()}</StyledDetail>
             </StyledDetails>
             <Spacer />
             <Button
@@ -185,58 +218,51 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm }) => {
   )
 }
 
-const RainbowLight = keyframes`
+// const RainbowLight = keyframes`
+//
+// 	0% {
+// 		background-position: 0% 50%;
+// 	}
+// 	50% {
+// 		background-position: 100% 50%;
+// 	}
+// 	100% {
+// 		background-position: 0% 50%;
+// 	}
+// `
 
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-`
-
-const StyledCardAccent = styled.div`
-  background: linear-gradient(
-    45deg,
-    rgba(255, 0, 0, 1) 0%,
-    rgba(255, 154, 0, 1) 10%,
-    rgba(208, 222, 33, 1) 20%,
-    rgba(79, 220, 74, 1) 30%,
-    rgba(63, 218, 216, 1) 40%,
-    rgba(47, 201, 226, 1) 50%,
-    rgba(28, 127, 238, 1) 60%,
-    rgba(95, 21, 242, 1) 70%,
-    rgba(186, 12, 248, 1) 80%,
-    rgba(251, 7, 217, 1) 90%,
-    rgba(255, 0, 0, 1) 100%
-  );
-  background-size: 300% 300%;
-  animation: ${RainbowLight} 2s linear infinite;
-  border-radius: 12px;
-  filter: blur(6px);
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  bottom: -2px;
-  left: -2px;
-  z-index: -1;
-`
+// const StyledCardAccent = styled.div`
+//   background: linear-gradient(
+//     45deg,
+//     rgba(255, 0, 0, 1) 0%,
+//     rgba(255, 154, 0, 1) 10%,
+//     rgba(208, 222, 33, 1) 20%,
+//     rgba(79, 220, 74, 1) 30%,
+//     rgba(63, 218, 216, 1) 40%,
+//     rgba(47, 201, 226, 1) 50%,
+//     rgba(28, 127, 238, 1) 60%,
+//     rgba(95, 21, 242, 1) 70%,
+//     rgba(186, 12, 248, 1) 80%,
+//     rgba(251, 7, 217, 1) 90%,
+//     rgba(255, 0, 0, 1) 100%
+//   );
+//   background-size: 300% 300%;
+//   animation: ${RainbowLight} 2s linear infinite;
+//   border-radius: 12px;
+//   filter: blur(6px);
+//   position: absolute;
+//   top: -2px;
+//   right: -2px;
+//   bottom: -2px;
+//   left: -2px;
+//   z-index: -1;
+// `
 
 const StyledCards = styled.div`
   width: 900px;
   @media (max-width: 768px) {
     width: 100%;
   }
-`
-
-const StyledLoadingWrapper = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1;
-  justify-content: center;
 `
 
 const StyledRow = styled.div`

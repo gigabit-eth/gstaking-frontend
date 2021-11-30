@@ -59,14 +59,14 @@ const StyledTopBarInner = styled.div`
   max-width: ${(props) => props.theme.siteWidth}px;
   width: 100%;
 `
-const StyledNavWrapper = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  @media (max-width: 400px) {
-    display: none;
-  }
-`
+// const StyledNavWrapper = styled.div`
+//   display: flex;
+//   flex: 1;
+//   justify-content: center;
+//   @media (max-width: 400px) {
+//     display: none;
+//   }
+// `
 
 const StyledAccountButtonWrapper = styled.div`
   align-items: center;
@@ -79,20 +79,20 @@ const StyledAccountButtonWrapper = styled.div`
   }
 `
 
-const StyledMenuButton = styled.button`
-  background: none;
-  border: 0;
-  margin: 0;
-  outline: 0;
-  padding: 0;
-  display: none;
-  @media (max-width: 400px) {
-    align-items: center;
-    display: flex;
-    height: 44px;
-    justify-content: center;
-    width: 44px;
-  }
-`
+// const StyledMenuButton = styled.button`
+//   background: none;
+//   border: 0;
+//   margin: 0;
+//   outline: 0;
+//   padding: 0;
+//   display: none;
+//   @media (max-width: 400px) {
+//     align-items: center;
+//     display: flex;
+//     height: 44px;
+//     justify-content: center;
+//     width: 44px;
+//   }
+// `
 
 export default TopBar

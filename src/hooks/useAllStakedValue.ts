@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import { provider } from 'web3-core'
 
 import BigNumber from 'bignumber.js'
 import { useWallet } from 'use-wallet'
@@ -9,7 +8,7 @@ import {
   getMasterChefContract,
   getWethContract,
   getFarms,
-  getTotalLPWethValue,
+  getTotalLPWethValue, getPoolWeight,
 } from '../sushi/utils'
 import useSushi from './useSushi'
 import useBlock from './useBlock'
@@ -24,13 +23,14 @@ export interface StakedValue {
 
 const useAllStakedValue = () => {
   const [balances, setBalance] = useState([] as Array<StakedValue>)
-  const { account }: { account: string; ethereum: provider } = useWallet()
+  const { account } = useWallet()
   const sushi = useSushi()
   const farms = getFarms(sushi)
   const masterChefContract = getMasterChefContract(sushi)
   const wethContact = getWethContract(sushi)
   const block = useBlock()
 
+  console.log('calling fetchAllStakedValue');
   const fetchAllStakedValue = useCallback(async () => {
     const balances: Array<StakedValue> = await Promise.all(
       farms.map(
@@ -43,24 +43,33 @@ const useAllStakedValue = () => {
           lpContract: Contract
           tokenContract: Contract
         }) =>
-          getTotalLPWethValue(
-            masterChefContract,
-            wethContact,
-            lpContract,
-            tokenContract,
-            pid,
-          ),
+          (
+            {
+              tokenAmount: new BigNumber(0),
+              wethAmount: new BigNumber(0),
+              totalWethValue: new BigNumber(0),
+              tokenPriceInWeth: new BigNumber(0),
+              poolWeight: new BigNumber(0),
+            }
+          )
+          // getTotalLPWethValue(
+          //   masterChefContract,
+          //   wethContact,
+          //   lpContract,
+          //   tokenContract,
+          //   pid,
+          // ),
       ),
     )
 
     setBalance(balances)
-  }, [account, masterChefContract, sushi])
+  }, [masterChefContract, farms, wethContact])
 
   useEffect(() => {
     if (account && masterChefContract && sushi) {
       fetchAllStakedValue()
     }
-  }, [account, block, masterChefContract, setBalance, sushi])
+  }, [account, block, masterChefContract, setBalance, sushi, fetchAllStakedValue])
 
   return balances
 }

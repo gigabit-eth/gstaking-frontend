@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Contract } from 'web3-eth-contract'
 import Button from '../../../components/Button'
@@ -10,39 +10,40 @@ import IconButton from '../../../components/IconButton'
 import { AddIcon } from '../../../components/icons'
 import Label from '../../../components/Label'
 import Value from '../../../components/Value'
-import useAllowance from '../../../hooks/useAllowance'
-import useApprove from '../../../hooks/useApprove'
 import useModal from '../../../hooks/useModal'
-import useStake from '../../../hooks/useStake'
-import useStakedBalance from '../../../hooks/useStakedBalance'
-import useTokenBalance from '../../../hooks/useTokenBalance'
 import useUnstake from '../../../hooks/useUnstake'
 import { getBalanceNumber } from '../../../utils/formatBalance'
-import DepositModal from './DepositModal'
 import WithdrawModal from './WithdrawModal'
+import StakeModal from "./StakeModal";
+import useStakeErc721 from "../../../hooks/useStakeErc721";
+import useApproveErc721Farm from "../../../hooks/useApproveErc721Farm";
+import ApproveModal from "./ApproveModal";
 
 interface StakeProps {
-  lpContract: Contract
-  pid: number
+  erc721TokenContract: Contract
+  erc721FarmContract: Contract
+  // pid: number
   tokenName: string
 }
 
-const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
-  const [requestedApproval, setRequestedApproval] = useState(false)
+const Stake: React.FC<StakeProps> = ({ erc721TokenContract, erc721FarmContract, tokenName }) => {
+  // const [requestedApproval, setRequestedApproval] = useState(false)
 
-  const allowance = useAllowance(lpContract)
-  const { onApprove } = useApprove(lpContract)
+  // const allowance = useAllowance(lpContract)
+  // const { onApprove } = useApprove(erc721FarmContract)
 
-  const tokenBalance = useTokenBalance(lpContract.options.address)
-  const stakedBalance = useStakedBalance(pid)
+  // const tokenBalance = useTokenBalance(erc721FarmContract.options.address)
+  // const stakedBalance = useStakedBalance(pid)
+  const stakedBalance = new BigNumber(0);
 
-  const { onStake } = useStake(pid)
-  const { onUnstake } = useUnstake(pid)
+  const { onStakeErc721 } = useStakeErc721(erc721FarmContract)
+  const { onUnstake } = useUnstake(0)
+  const { onApproveErc721Farm } = useApproveErc721Farm(erc721TokenContract, erc721FarmContract)
 
   const [onPresentDeposit] = useModal(
-    <DepositModal
-      max={tokenBalance}
-      onConfirm={onStake}
+    <StakeModal
+      // max={tokenBalance}
+      onConfirm={onStakeErc721}
       tokenName={tokenName}
     />,
   )
@@ -55,48 +56,56 @@ const Stake: React.FC<StakeProps> = ({ lpContract, pid, tokenName }) => {
     />,
   )
 
-  const handleApprove = useCallback(async () => {
-    try {
-      setRequestedApproval(true)
-      const txHash = await onApprove()
-      // user rejected tx or didn't go thru
-      if (!txHash) {
-        setRequestedApproval(false)
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }, [onApprove, setRequestedApproval])
+  const [onPresentApprove] = useModal(
+    <ApproveModal
+      // max={new BigNumber(10)}
+      onConfirm={onApproveErc721Farm}
+    />
+  )
+
+  // const handleApprove = useCallback(async () => {
+  //   try {
+  //     setRequestedApproval(true)
+  //     const txHash = await onApprove()
+  //     // user rejected tx or didn't go thru
+  //     if (!txHash) {
+  //       setRequestedApproval(false)
+  //     }
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }, [onApprove, setRequestedApproval])
 
   return (
     <Card>
       <CardContent>
         <StyledCardContentInner>
           <StyledCardHeader>
-            <CardIcon>🔒</CardIcon>
+            <CardIcon>
+              <span aria-label="lock" role="img">
+              🔒
+              </span>
+            </CardIcon>
             <Value value={getBalanceNumber(stakedBalance)} />
             <Label text={`${tokenName} Staked`} />
           </StyledCardHeader>
           <StyledCardActions>
-            {!allowance.toNumber() ? (
+            <>
               <Button
-                disabled={requestedApproval}
-                onClick={handleApprove}
-                text={`Approve ${tokenName}`}
+                disabled={false}
+                text="Approve"
+                onClick={onPresentApprove}
               />
-            ) : (
-              <>
-                <Button
-                  disabled={stakedBalance.eq(new BigNumber(0))}
-                  text="Unstake"
-                  onClick={onPresentWithdraw}
-                />
-                <StyledActionSpacer />
-                <IconButton onClick={onPresentDeposit}>
-                  <AddIcon />
-                </IconButton>
-              </>
-            )}
+              <Button
+                disabled={stakedBalance.eq(new BigNumber(0))}
+                text="Unstake"
+                onClick={onPresentWithdraw}
+              />
+              <StyledActionSpacer />
+              <IconButton onClick={onPresentDeposit}>
+                <AddIcon />
+              </IconButton>
+            </>
           </StyledCardActions>
         </StyledCardContentInner>
       </CardContent>

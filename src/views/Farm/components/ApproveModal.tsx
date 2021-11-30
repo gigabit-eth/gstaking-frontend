@@ -1,30 +1,28 @@
-import BigNumber from 'bignumber.js'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Button from '../../../components/Button'
 import Modal, { ModalProps } from '../../../components/Modal'
 import ModalActions from '../../../components/ModalActions'
 import ModalTitle from '../../../components/ModalTitle'
 import TokenInput from '../../../components/TokenInput'
-import { getFullDisplayBalance } from '../../../utils/formatBalance'
 
-interface DepositModalProps extends ModalProps {
-  max: BigNumber
-  onConfirm: (amount: string) => void
+interface ApproveModalProps extends ModalProps {
+  // max: BigNumber
+  onConfirm: (tokenId: number) => void
   tokenName?: string
 }
 
-const DepositModal: React.FC<DepositModalProps> = ({
-  max,
+const ApproveModal: React.FC<ApproveModalProps> = ({
   onConfirm,
   onDismiss,
+  // max,
   tokenName = '',
 }) => {
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
 
-  const fullBalance = useMemo(() => {
-    return getFullDisplayBalance(max)
-  }, [max])
+  // const fullBalance = useMemo(() => {
+  //   return getFullDisplayBalance(max)
+  // }, [max])
 
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
@@ -33,18 +31,18 @@ const DepositModal: React.FC<DepositModalProps> = ({
     [setVal],
   )
 
-  const handleSelectMax = useCallback(() => {
-    setVal(fullBalance)
-  }, [fullBalance, setVal])
+  // const handleSelectMax = useCallback(() => {
+  //   setVal(fullBalance)
+  // }, [fullBalance, setVal])
 
   return (
     <Modal>
-      <ModalTitle text={`Deposit ${tokenName} NFT`} />
+      <ModalTitle text={`Approve ${tokenName}`} />
       <TokenInput
-        value={val}
-        onSelectMax={handleSelectMax}
+        // onSelectMax={handleSelectMax}
         onChange={handleChange}
-        max={fullBalance}
+        value={val}
+        max={0}
         symbol={tokenName}
       />
       <ModalActions>
@@ -53,8 +51,12 @@ const DepositModal: React.FC<DepositModalProps> = ({
           disabled={pendingTx}
           text={pendingTx ? 'Pending Confirmation' : 'Confirm'}
           onClick={async () => {
+            const tokenId = parseInt(val);
+            if (isNaN(tokenId)) {
+              throw new Error('Invalid tokenId: ' + val);
+            }
             setPendingTx(true)
-            await onConfirm(val)
+            await onConfirm(tokenId)
             setPendingTx(false)
             onDismiss()
           }}
@@ -64,4 +66,4 @@ const DepositModal: React.FC<DepositModalProps> = ({
   )
 }
 
-export default DepositModal
+export default ApproveModal

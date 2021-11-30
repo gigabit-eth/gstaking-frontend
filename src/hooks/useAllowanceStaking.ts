@@ -6,12 +6,12 @@ import {useWallet} from 'use-wallet'
 import {provider} from 'web3-core'
 import {Contract} from 'web3-eth-contract'
 
-import {getAllowance} from '../utils/erc20'
+import {getAllowance} from '../contracts/erc20'
 import {getMasterChefContract, getSushiContract, getXSushiStakingContract} from '../sushi/utils'
 
 const useAllowanceStaking = () => {
   const [allowance, setAllowance] = useState(new BigNumber(0))
-  const {account}: { account: string; ethereum: provider } = useWallet()
+  const {account} = useWallet()
   const sushi = useSushi()
   const lpContract = getSushiContract(sushi)
   const stakingContract = getXSushiStakingContract(sushi)
