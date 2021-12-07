@@ -1,21 +1,19 @@
 import { useCallback } from 'react'
 
-import useSushi from './useSushi'
 import { useWallet } from 'use-wallet'
 
-import { unstake, getMasterChefContract } from '../sushi/utils'
+import {Contract} from "web3-eth-contract";
+import {unstakeErc721} from "../contracts/erc721Farm";
 
-const useUnstake = (pid: number) => {
+const useUnstake = (erc721FarmContract: Contract) => {
   const { account } = useWallet()
-  const sushi = useSushi()
-  const masterChefContract = getMasterChefContract(sushi)
 
   const handleUnstake = useCallback(
-    async (amount: string) => {
-      const txHash = await unstake(masterChefContract, pid, amount, account)
+    async (tokenId: number) => {
+      const txHash = await unstakeErc721(erc721FarmContract, tokenId, account)
       console.log(txHash)
     },
-    [account, pid, masterChefContract],
+    [account, erc721FarmContract],
   )
 
   return { onUnstake: handleUnstake }
