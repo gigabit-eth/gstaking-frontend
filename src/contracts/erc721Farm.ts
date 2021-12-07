@@ -28,6 +28,21 @@ export const stakeErc721 = async (erc721FarmContract: Contract, tokenId: number,
   })
 }
 
+export const unstakeErc721 = async (erc721FarmContract: Contract, tokenId: number, account: string) => {
+  return erc721FarmContract.methods
+  .withdraw(
+    [tokenId]
+  )
+  .send({ from: account })
+  .on('transactionHash', (tx: any) => {
+    console.log(tx)
+    return tx.transactionHash
+  })
+  .on('error', (err: any) => {
+    console.error('Tx error: ', err);
+  })
+}
+
 
 
 export const approveErc721Farm = async (erc721TokenContract: Contract, spenderAddress: string, account: string, tokenId: number) => {
@@ -41,4 +56,17 @@ export const approveErc721Farm = async (erc721TokenContract: Contract, spenderAd
   .on('error', (err: any) => {
     console.error('Tx error: ', err);
   })
+}
+
+export const getDepositsOf = async (erc721FarmContract: Contract, account: string) => {
+  try {
+    console.log('depositsOf.call()');
+    const tokenIds: Array<number> = await erc721FarmContract.methods
+    .depositsOf(account)
+    .call()
+    return tokenIds
+  } catch(err) {
+    console.error(err);
+    return []
+  }
 }

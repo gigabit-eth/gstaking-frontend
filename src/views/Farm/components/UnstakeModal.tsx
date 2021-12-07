@@ -1,30 +1,28 @@
-import BigNumber from 'bignumber.js'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Button from '../../../components/Button'
 import Modal, { ModalProps } from '../../../components/Modal'
 import ModalActions from '../../../components/ModalActions'
 import ModalTitle from '../../../components/ModalTitle'
-import TokenInput from '../../../components/TokenInput'
-import { getFullDisplayBalance } from '../../../utils/formatBalance'
+import NFTInput from "../../../components/NFTInput";
 
 interface WithdrawModalProps extends ModalProps {
-  max: BigNumber
-  onConfirm: (amount: string) => void
+  // max: BigNumber
+  onConfirm: (tokenId: number) => void
   tokenName?: string
 }
 
-const WithdrawModal: React.FC<WithdrawModalProps> = ({
+const UnstakeModal: React.FC<WithdrawModalProps> = ({
   onConfirm,
   onDismiss,
-  max,
+  // max,
   tokenName = '',
 }) => {
   const [val, setVal] = useState('')
   const [pendingTx, setPendingTx] = useState(false)
 
-  const fullBalance = useMemo(() => {
-    return getFullDisplayBalance(max)
-  }, [max])
+  // const fullBalance = useMemo(() => {
+  //   return getFullDisplayBalance(max)
+  // }, [max])
 
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
@@ -33,18 +31,18 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
     [setVal],
   )
 
-  const handleSelectMax = useCallback(() => {
-    setVal(fullBalance)
-  }, [fullBalance, setVal])
+  // const handleSelectMax = useCallback(() => {
+  //   setVal(fullBalance)
+  // }, [fullBalance, setVal])
 
   return (
     <Modal>
-      <ModalTitle text={`Withdraw ${tokenName}`} />
-      <TokenInput
-        onSelectMax={handleSelectMax}
+      <ModalTitle text={`Unstake ${tokenName} NFT by Token ID`} />
+      <NFTInput
+        // onSelectMax={handleSelectMax}
         onChange={handleChange}
         value={val}
-        max={fullBalance}
+        // max={fullBalance}
         symbol={tokenName}
       />
       <ModalActions>
@@ -54,7 +52,11 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
           text={pendingTx ? 'Pending Confirmation' : 'Confirm'}
           onClick={async () => {
             setPendingTx(true)
-            await onConfirm(val)
+            const tokenId = parseInt(val);
+            if (isNaN(tokenId)) {
+              throw new Error('Invalid token ID: ' + val);
+            }
+            await onConfirm(tokenId)
             setPendingTx(false)
             onDismiss()
           }}
@@ -64,4 +66,4 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({
   )
 }
 
-export default WithdrawModal
+export default UnstakeModal

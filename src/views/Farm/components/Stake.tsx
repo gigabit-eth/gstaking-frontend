@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import React from 'react'
 import styled from 'styled-components'
 import { Contract } from 'web3-eth-contract'
@@ -12,12 +11,12 @@ import Label from '../../../components/Label'
 import Value from '../../../components/Value'
 import useModal from '../../../hooks/useModal'
 import useUnstake from '../../../hooks/useUnstake'
-import { getBalanceNumber } from '../../../utils/formatBalance'
-import WithdrawModal from './WithdrawModal'
+import UnstakeModal from './UnstakeModal'
 import StakeModal from "./StakeModal";
 import useStakeErc721 from "../../../hooks/useStakeErc721";
 import useApproveErc721Farm from "../../../hooks/useApproveErc721Farm";
 import ApproveModal from "./ApproveModal";
+import useStakedQuantity from "../../../hooks/useStakedQuantity";
 
 interface StakeProps {
   erc721TokenContract: Contract
@@ -33,11 +32,11 @@ const Stake: React.FC<StakeProps> = ({ erc721TokenContract, erc721FarmContract, 
   // const { onApprove } = useApprove(erc721FarmContract)
 
   // const tokenBalance = useTokenBalance(erc721FarmContract.options.address)
-  // const stakedBalance = useStakedBalance(pid)
-  const stakedBalance = new BigNumber(0);
+  const stakedQuantity = useStakedQuantity(erc721FarmContract)
+  // const stakedBalance = new BigNumber(0);
 
   const { onStakeErc721 } = useStakeErc721(erc721FarmContract)
-  const { onUnstake } = useUnstake(0)
+  const { onUnstake } = useUnstake(erc721FarmContract)
   const { onApproveErc721Farm } = useApproveErc721Farm(erc721TokenContract, erc721FarmContract)
 
   const [onPresentDeposit] = useModal(
@@ -48,9 +47,9 @@ const Stake: React.FC<StakeProps> = ({ erc721TokenContract, erc721FarmContract, 
     />,
   )
 
-  const [onPresentWithdraw] = useModal(
-    <WithdrawModal
-      max={stakedBalance}
+  const [onPresentUnstake] = useModal(
+    <UnstakeModal
+      // max={new BigNumber(stakedQuantity)}
       onConfirm={onUnstake}
       tokenName={tokenName}
     />,
@@ -86,7 +85,7 @@ const Stake: React.FC<StakeProps> = ({ erc721TokenContract, erc721FarmContract, 
               🔒
               </span>
             </CardIcon>
-            <Value value={getBalanceNumber(stakedBalance)} />
+            <Value value={stakedQuantity} />
             <Label text={`${tokenName} Staked`} />
           </StyledCardHeader>
           <StyledCardActions>
@@ -97,9 +96,9 @@ const Stake: React.FC<StakeProps> = ({ erc721TokenContract, erc721FarmContract, 
                 onClick={onPresentApprove}
               />
               <Button
-                disabled={stakedBalance.eq(new BigNumber(0))}
+                disabled={stakedQuantity === 0}
                 text="Unstake"
-                onClick={onPresentWithdraw}
+                onClick={onPresentUnstake}
               />
               <StyledActionSpacer />
               <IconButton onClick={onPresentDeposit}>
